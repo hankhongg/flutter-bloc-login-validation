@@ -1,7 +1,6 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.flutter_responsive_login_ui">
-   <application
-        android:label="flutter_responsive_login_ui"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <application
+        android:label="todo_list"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
