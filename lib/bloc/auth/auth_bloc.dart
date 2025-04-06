@@ -5,7 +5,7 @@ part "auth_state.dart";
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc() : super(AuthInitial()) {
-    on<AuthLoginEvent>((event, emit) async {
+    void _onAuthLoginEvent(AuthLoginEvent event, Emitter emit) async {
       emit(AuthLoadingState());
       try {
         if(event.password.length < 6){
@@ -19,8 +19,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       } catch(e) {
         emit(AuthErrorState("An error occurred: $e"));
       }
-    });
-    on<AuthLogoutEvent>((event, emit) async {
+    }
+    void _onAuthLogoutEvent( AuthLogoutEvent event,Emitter emit) async {
       emit(AuthLoadingState()); 
       try{
         await Future.delayed(const Duration(seconds: 2));
@@ -29,7 +29,25 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(AuthErrorState("An error occurred: $e"));
       }
       
-    });
+    }
+
+
+    on<AuthLoginEvent>(_onAuthLoginEvent);
+    on<AuthLogoutEvent>(_onAuthLogoutEvent);
+
+    @override
+    void onChange(Change<AuthState> change) {
+      super.onChange(change);
+      print("Current State: ${change.currentState}");
+      print("Next State: ${change.nextState}");
+    }
+
+    @override
+    void onError(Object error, StackTrace stackTrace) {
+      super.onError(error, stackTrace);
+      print("Error: $error");
+      print("Stack Trace: $stackTrace");
+    }
   }
 
   
